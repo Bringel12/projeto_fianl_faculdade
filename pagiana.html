@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fale Conosco</title>
+    <link rel="stylesheet" href="modelo.css">
+</head>
+<body>
+    <h1>Página Inicial</h1>
+    <div class="contact-box">
+        <b>Fale Conosco</b>
+        <div class="contact-info">
+            <div class="phone-number">
+                <img src="imagens/1384023.png" alt="WhatsApp" class="whatsapp-icon">
+                (12) 2585-5060
+            </div>
+            <div class="phone-number">
+                <img src="imagens/1384023.png" alt="WhatsApp" class="whatsapp-icon">
+                (21) 98554-5002
+            </div>
+        </div>
+        
+        <div class="logo-container">
+            <img src="imagens/Imagem do WhatsApp de 2025-03-21 à(s) 12.54.05_40bb4417.jpg" alt="logo" class="logo-icon">
+        </div>
+
+        <div class="shopping-cart">
+            <a href="carrinho.html">
+                <img src="imagens/4295.png" alt="Carrinho" class="cart-icon">
+                <span>Carrinho</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="white-box">
+        <div class="purple-box">
+            <div class="search-box">
+                <input type="text" placeholder="Pesquisar..." class="search-input">
+                <button class="search-button">🔍</button>
+            </div>
+        </div>
+
+        <div class="image-container">
+            <div class="Cupcake-de-Limão" data-item="Cupcake de Limão" data-image="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.29.34_231b9a64.jpg">
+                <img src="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.29.34_231b9a64.jpg" alt="Cupcake de Limão" class="cupcake-image">
+                <p>Cupcake de Limão</p>
+                <p>R$ 12,00</p>
+                <div class="price-box">
+                    <span>0</span>
+                    <button class="increase-button">+</button>
+                </div>
+                <button class="add-to-cart-button">Adicionar no Carrinho</button>
+            </div>
+            <div class="image-box" data-item="Cupcake Napolitano" data-image="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.32.19_bdd746e0.jpg">
+                <img src="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.32.19_bdd746e0.jpg" alt="Cupcake Napolitano" class="cupcake-image">
+                <p>Cupcake Napolitano</p>
+                <p>R$ 12,00</p>
+                <div class="price-box">
+                    <span>0</span>
+                    <button class="increase-button">+</button>
+                </div>
+                <button class="add-to-cart-button">Adicionar no Carrinho</button>
+            </div>
+            <div class="Cupcake-de-Red-Velvet" data-item="Cupcake de Red Velvet" data-image="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.33.55_37e3082f.jpg">
+                <img src="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.33.55_37e3082f.jpg" alt="Cupcake de Red Velvet" class="cupcake-image">
+                <p>Cupcake de Red Velvet</p>
+                <p>R$ 12,00</p>
+                <div class="price-box">
+                    <span>0</span>
+                    <button class="increase-button">+</button>
+                </div>
+                <button class="add-to-cart-button">Adicionar no Carrinho</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="location">
+        <img src="imagens/7596728.png" alt="Localização" class="location-icon">
+        <h1>Localização</h1>
+    </div>
+
+    <h2>@2024 CPNL Rua Frederico Leda</h2>
+    <script>
+   
+    document.querySelectorAll('.increase-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const priceBox = this.parentNode;
+            const countSpan = priceBox.querySelector('span');
+            let count = parseInt(countSpan.textContent, 10);
+            countSpan.textContent = count + 1;
+        });
+    });
+
+   
+    document.querySelectorAll('.add-to-cart-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const container = this.closest('[data-item]');
+            const countSpan = container.querySelector('.price-box span');
+            const quantity = parseInt(countSpan.textContent, 10);
+
+            const name = container.getAttribute('data-item');
+            const image = container.getAttribute('data-image');
+
+            if (quantity > 0) {
+               
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+           
+                const existingItem = cart.find(item => item.name === name);
+
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({ name: name, quantity: quantity, image: image });
+                }
+
+            
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                alert(`Adicionado ${quantity}x ${name} ao carrinho!`);
+
+            
+                countSpan.textContent = 0;
+            } else {
+                alert("Por favor, escolha uma quantidade antes de adicionar ao carrinho.");
+            }
+        });
+    });
+</script>
+
+
+    <!-- <script>
+        // Lógica para aumentar a quantidade
+        document.querySelectorAll('.increase-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const priceBox = this.parentNode;
+                const countSpan = priceBox.querySelector('span');
+                let count = parseInt(countSpan.textContent, 10);
+                countSpan.textContent = count + 1; // Aumenta o número em 1
+            });
+        });
+        
+
+        // Lógica para adicionar no carrinho
+        // document.querySelectorAll('.add-to-cart-button').forEach(button => {
+        //     button.addEventListener('click', function() {
+        //         const priceBox = this.previousElementSibling; // Obtém a price-box anterior
+        //         const countSpan = priceBox.querySelector('span');
+        //         let count = parseInt(countSpan.textContent, 10);
+        //         const itemName = this.closest('.image-box').getAttribute('data-item');
+        //         const itemImage = this.closest('.image-box').getAttribute('data-image'); // Obtém a imagem
+
+                // if (count > 0) {
+                //     // Armazenar item no localStorage
+                //     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                //     cart.push({ name: itemName, quantity: count, image: itemImage }); // Armazena a imagem também
+                //     localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // Enviar dados para a API
+                    // fetch('https://suaapi.com/carrinho', {
+                    //     method: 'POST',
+                    //     headers: {
+                    //         'Content-Type': 'application/json'
+                    //     },
+                    //     body: JSON.stringify({ name: itemName, quantity: count, image: itemImage })
+                    // })
+                //     .then(response => {
+                //         if (!response.ok) {
+                //             throw new Error('Erro ao enviar dados para a API');
+                //         }
+                //         return response.json();
+                //     })
+                //     .then(data => {
+                //         alert(`Adicionado ${count} ${itemName}(s) ao carrinho!`); // Mensagem de confirmação
+                //         countSpan.textContent = 0; // Zera a quantidade
+                //     })
+                //     .catch(error => {
+                //         console.error('Erro:', error);
+                //         alert('Houve um problema ao adicionar o item ao carrinho.');
+                //     });
+                // } else {
+                //     alert("Por favor, escolha uma quantidade antes de adicionar ao carrinho.");
+                // }
+            // });
+        // });
+    </script> -->
+</body>
+</html>

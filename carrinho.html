@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrinho</title>
+    <link rel="stylesheet" href="modelo.css"> <!-- Link para o CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #00cbcc;
+            padding: 20px;
+        }
+        .quadrado {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+      
+        .cart-container {
+            display: flex;
+            flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha se não houver espaço */
+            justify-content: flex-start; /* Alinha os itens à esquerda */
+            gap: 10px; /* Adiciona espaço entre os itens */
+        }
+        .item {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc; /* Borda em torno de cada item */
+            padding: 10px;
+            border-radius: 4px; /* Bordas arredondadas */
+            background-color: #f9f9f9; /* Cor de fundo do item */
+            width: calc(30% - 10px); /* Ajusta a largura dos itens (3 por linha) */
+            box-sizing: border-box; /* Inclui padding e border na largura total */
+        }
+        .item img {
+            width: 50px; /* Ajuste o tamanho conforme necessário */
+            height: auto; /* Manter a proporção */
+            margin-right: 10px; /* Espaço entre a imagem e a quantidade */
+        }
+        .quantity-box {
+            width: 30px; /* Largura do quadrado */
+            height: 30px; /* Altura do quadrado */
+            background-color: #f2f2f2; /* Cor do quadrado */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px; /* Bordas arredondadas */
+            margin-right: 10px; /* Espaço entre o quadrado e a imagem */
+        }
+        .price-box {
+            margin-left: auto; /* Move o total para a direita */
+            font-weight: bold; /* Destaca o valor total */
+            color: #333; /* Cor do texto */
+        }
+        .empty-cart {
+            text-align: center;
+            color: #777;
+        }
+        .buy-box {
+            background-color: #00cbcc; /* Cor ciana */
+            color: white; /* Cor do texto */
+            padding: 15px; /* Espaçamento interno */
+            text-align: center; /* Centraliza o texto */
+            border-radius: 8px; /* Bordas arredondadas */
+            margin-top: 20px; /* Espaço acima do quadro de comprar */
+            cursor: pointer; /* Indica que é clicável */
+        }
+    </style>
+</head>
+<body>
+    <h1>Carrinho</h1>
+    
+    <div class="quadrado">
+        <h1>Carrinho</h1>
+        <hr>
+        <div class="cart-container" id="cart-items"></div> <!-- Local para exibir os itens do carrinho -->
+        
+        <!-- Quadro de Comprar -->
+        <div class="buy-box" onclick="comprar()">
+            Comprar
+        </div>
+    </div>
+
+    <script>
+        // Função para atualizar o carrinho
+        function atualizarCarrinho() {
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsDiv = document.getElementById('cart-items');
+            let totalPrice = 0;
+
+            cartItemsDiv.innerHTML = ''; // Limpa os itens exibidos
+
+            if (cartItems.length > 0) {
+                cartItems.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('item');
+                    
+                    // Cria a imagem
+                    const img = document.createElement('img');
+                    img.src = item.image; 
+                    img.alt = item.name; 
+
+                    // Cria o quadrado para a quantidade
+                    const quantityBox = document.createElement('div');
+                    quantityBox.classList.add('quantity-box');
+                    quantityBox.textContent = item.quantity; // Adiciona a quantidade no quadrado
+
+                    // Cria o box para o preço do item
+                    const priceBox = document.createElement('div');
+                    const itemPrice = item.quantity * 12.00; // Ajuste o preço conforme necessário
+                    priceBox.classList.add('price-box');
+                    priceBox.textContent = `R$ ${itemPrice.toFixed(2)}`; // Preço total do item
+
+                    // Adiciona a imagem, o quadrado e o preço ao itemDiv
+                    itemDiv.appendChild(quantityBox);
+                    itemDiv.appendChild(img);
+                    itemDiv.appendChild(priceBox);
+                    
+                    cartItemsDiv.appendChild(itemDiv);
+
+                    // Calcula o total
+                    totalPrice += itemPrice;
+                });
+
+                // Exibe o total no carrinho
+                cartItemsDiv.insertAdjacentHTML('beforeend', `<div class="price-box" style="font-weight:bold;">Total: R$ ${totalPrice.toFixed(2)}</div>`);
+            } else {
+                cartItemsDiv.innerHTML = "<p class='empty-cart'>Seu carrinho está vazio.</p>";
+            }
+        }
+
+     function comprar() {
+    // Limpa o carrinho no localStorage
+    localStorage.removeItem('cart');
+    atualizarCarrinho(); // Atualiza a exibição do carrinho
+
+    alert("Compra realizada com sucesso!");
+
+    // Número de telefone no formato internacional (55 = Brasil, 99 = DDD, 984343799 = número)
+    const numero = "5598988162178";
+
+    // Mensagem personalizada para o WhatsApp
+    const mensagem = encodeURIComponent("Olá! Acabei de realizar uma compra no site.");
+
+    // Cria o link para o WhatsApp
+    const url = `https://wa.me/${numero}?text=${mensagem}`;
+
+    // Abre o link do WhatsApp em uma nova aba
+    window.open(url, '_blank');
+}
+
+
+        // Inicializa o carrinho ao carregar a página
+        atualizarCarrinho();
+    </script>
+</body>
+</html>

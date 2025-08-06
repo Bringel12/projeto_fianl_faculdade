@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: cadetblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .register-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .register-box {
+            background-color: cyan; /* Quadrado cyan */
+            padding: 10px;
+            border-radius: 8px;
+            /* color: white; */
+            margin-bottom: 20px; /* Espaçamento entre o título e o formulário */
+        }
+        .register-box h2 {
+            margin: 0;
+        }
+        .register-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .register-container input:focus {
+            /* background-color: cyan;  */
+            outline: none;
+        }
+        .register-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: cyan; 
+            border: none;
+            /* color: white; */
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .register-container button:hover {
+            background-color: #45a049;
+        }
+        .register-container p {
+            text-align: center;
+        }
+        .register-container p a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        @media (max-width: 500px) {
+            .register-container {
+                width: 80%;
+            }
+        }
+    </style>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"></script>
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="register-box"> <!-- Quadrado cyan -->
+            <h2>Registrar-se</h2> <!-- Título dentro do quadrado cyan -->
+        </div>
+        <form id="register-form">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirmar Senha" required>
+            <button type="submit">Registrar</button>
+        </form>
+        <p>Já tem uma conta? <a href="long.html">Faça login aqui</a></p>
+    </div>
+
+   <script>
+    document.getElementById("register-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+
+        // Verificar se as senhas coincidem
+        if (password !== confirmPassword) {
+            alert("As senhas não coincidem!");
+            return;
+        }
+
+        try {
+            // Enviar dados para nossa API
+            const response = await fetch('http://localhost:3001/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Usuário registrado com sucesso no banco de dados!");
+                window.location.href = "long.html";
+            } else {
+                throw new Error(data.error || 'Erro ao registrar');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert(`Erro ao registrar: ${error.message}`);
+        }
+    });
+</script>
+
+
+</body>
+</html>

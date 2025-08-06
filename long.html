@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: cadetblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 100px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container .title-box {
+            display: inline-block;
+            background-color: cyan;
+            padding: 30px 80px;
+            border-radius: 8px; 
+            font-size: 24px;
+            line-height: 1.2;
+            margin-bottom: 60px;
+            margin-top: -30px; 
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-container input:focus {
+            outline: none;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: cyan;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+        .login-container p {
+            text-align: center;
+        }
+        .login-container p a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 500px) {
+            .login-container {
+                width: 80%;
+            }
+            .login-container .title-box {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="title-box">
+            Login
+        </div>
+        <form id="login-form">
+            <input type="email" id="email" name="email" placeholder="E-mail" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Ainda não tem uma conta? <a href="registro.html">Registre-se aqui</a></p>
+        <div id="error-message" class="error-message">E-mail ou senha incorretos.</div>
+    </div>
+
+    <script>
+        document.getElementById("login-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const errorElement = document.getElementById("error-message");
+
+            try {
+                // Enviar dados para a API de login
+                const response = await fetch('http://localhost:3001/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Login bem-sucedido
+                    errorElement.style.display = "none";
+                    window.location.href = "pagiana.html";
+                } else {
+                    // Exibir mensagem de erro
+                    errorElement.style.display = "block";
+                    errorElement.textContent = data.error || "E-mail ou senha incorretos.";
+                }
+            } catch (error) {
+                console.error('Erro ao fazer login:', error);
+                errorElement.style.display = "block";
+                errorElement.textContent = "Erro ao conectar com o servidor.";
+            }
+        });
+    </script>
+</body>
+</html>
