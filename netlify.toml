@@ -1,0 +1,8 @@
+[build]
+publish = "dist" # Make sure this to your build folder
+command = "npm run build" # Adjust this if your build command is different 
+
+[[redirects]]
+from = "/*"
+to = "/Login.html"
+status = 200
