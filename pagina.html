@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fale Conosco</title>
+    <link rel="stylesheet" href="modelo.css">
+</head>
+<body>
+
+    <h1>Página Inicial</h1>
+
+    <div class="contact-box">
+        <b>Fale Conosco</b>
+        <div class="contact-info">
+            <div class="phone-number">
+                <img src="imagens/1384023.png" alt="WhatsApp" class="whatsapp-icon">
+                (12) 2585-5060
+            </div>
+            <div class="phone-number">
+                <img src="imagens/1384023.png" alt="WhatsApp" class="whatsapp-icon">
+                (21) 98554-5002
+            </div>
+        </div>
+        
+        <div class="logo-container">
+            <img src="imagens/Imagem do WhatsApp de 2025-03-21 à(s) 12.54.05_40bb4417.jpg" alt="logo" class="logo-icon">
+        </div>
+
+        <div class="shopping-cart">
+            <a href="carrinho.html">
+                <img src="imagens/4295.png" alt="Carrinho" class="cart-icon">
+                <span>Carrinho</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- CAIXA DE PESQUISA -->
+    <div class="white-box">
+        <div class="purple-box">
+            <div class="search-box">
+                <input type="text" placeholder="Pesquisar..." class="search-input" id="searchInput">
+                <button class="search-button" id="searchButton">🔍</button>
+            </div>
+        </div>
+
+        <!-- PRODUTOS -->
+        <div class="image-container" id="productContainer">
+            <div class="Cupcake-de-Limão image-box" data-item="Cupcake de Limão" data-image="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.29.34_231b9a64.jpg">
+                <img src="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.29.34_231b9a64.jpg" alt="Cupcake de Limão" class="cupcake-image">
+                <p>Cupcake de Limão</p>
+                <p>R$ 12,00</p>
+                <div class="price-box">
+                    <span>0</span>
+                    <button class="increase-button">+</button>
+                </div>
+                <button class="add-to-cart-button">Adicionar no Carrinho</button>
+            </div>
+
+            <div class="image-box" data-item="Cupcake Napolitano" data-image="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.32.19_bdd746e0.jpg">
+                <img src="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.32.19_bdd746e0.jpg" alt="Cupcake Napolitano" class="cupcake-image">
+                <p>Cupcake Napolitano</p>
+                <p>R$ 12,00</p>
+                <div class="price-box">
+                    <span>0</span>
+                    <button class="increase-button">+</button>
+                </div>
+                <button class="add-to-cart-button">Adicionar no Carrinho</button>
+            </div>
+
+            <div class="Cupcake-de-Red-Velvet image-box" data-item="Cupcake de Red Velvet" data-image="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.33.55_37e3082f.jpg">
+                <img src="imagens/Imagem do WhatsApp de 2024-10-17 à(s) 11.33.55_37e3082f.jpg" alt="Cupcake de Red Velvet" class="cupcake-image">
+                <p>Cupcake de Red Velvet</p>
+                <p>R$ 12,00</p>
+                <div class="price-box">
+                    <span>0</span>
+                    <button class="increase-button">+</button>
+                </div>
+                <button class="add-to-cart-button">Adicionar no Carrinho</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOCALIZAÇÃO -->
+    <div class="location">
+        <img src="imagens/7596728.png" alt="Localização" class="location-icon">
+        <h1>Localização</h1>
+    </div>
+
+    <h2>@2024 CPNL Rua Frederico Leda</h2>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Função para aumentar quantidade
+        document.querySelectorAll('.increase-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const priceBox = this.parentNode;
+                const countSpan = priceBox.querySelector('span');
+                let count = parseInt(countSpan.textContent, 10);
+                countSpan.textContent = count + 1;
+            });
+        });
+
+        // Função para adicionar ao carrinho
+        document.querySelectorAll('.add-to-cart-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const container = this.closest('[data-item]');
+                const countSpan = container.querySelector('.price-box span');
+                const quantity = parseInt(countSpan.textContent, 10);
+
+                const name = container.getAttribute('data-item');
+                const image = container.getAttribute('data-image');
+
+                if (quantity > 0) {
+                    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    const existingItem = cart.find(item => item.name === name);
+
+                    if (existingItem) {
+                        existingItem.quantity += quantity;
+                    } else {
+                        cart.push({ name: name, quantity: quantity, image: image });
+                    }
+
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert(`Adicionado ${quantity}x ${name} ao carrinho!`);
+                    countSpan.textContent = 0;
+                } else {
+                    alert("Por favor, escolha uma quantidade antes de adicionar ao carrinho.");
+                }
+            });
+        });
+
+        // Busca exata (ignora acentos e maiúsculas) com retorno dos produtos ao limpar
+        function normalizeString(str) {
+            return str
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+        }
+
+        function filterProducts() {
+            const searchTerm = normalizeString(searchInput.value.trim());
+            const items = document.querySelectorAll('[data-item]');
+
+            if (searchTerm === "") {
+                items.forEach(item => {
+                    item.style.display = 'block';
+                });
+                return;
+            }
+
+            items.forEach(item => {
+                const itemName = normalizeString(item.getAttribute('data-item'));
+                if (itemName === searchTerm) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+
+        searchButton.addEventListener('click', filterProducts);
+        searchInput.addEventListener('input', filterProducts); // busca ao digitar (opcional)
+    </script>
+</body>
+</html>

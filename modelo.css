@@ -111,10 +111,10 @@ h2 {
 .shopping-cart {
     display: flex; /* Usa flexbox para alinhar o ícone e o texto */
     align-items: center; /* Alinha verticalmente */
-    margin-top: 10px; /* Espaçamento acima do carrinho */
-    position: absolute; /* Permite posicionar no canto superior direito */
-    right: 20px; /* Distância da borda direita */
-    top: 50px; /* Distância da borda superior para subir o carrinho */
+    margin-top: 10px; 
+    position: absolute; 
+    right: 20px; 
+    top: 50px; 
 }
 
 .cart-icon {
@@ -124,21 +124,21 @@ h2 {
 
 .white-box {
     background-color: white;
-    width: 100%; /* Ajusta para 100% da largura do container */
-    padding: 20px; /* Espaçamento interno */
+    width: 100%; 
+    padding: 20px; 
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .image-container {
-    display: flex; /* Usa flexbox para alinhar os quadrados */
-    justify-content: space-between; /* Espaçamento entre os itens */
-    margin-top: 20px; /* Espaçamento acima dos quadrados */
+    display: flex; 
+    justify-content: space-between; 
+    margin-top: 20px; 
 }
 
 .image-box {
-    text-align: center; /* Centraliza o texto e a imagem */
-    width: 30%; /* Largura de cada quadrado */
+    text-align: center; 
+    width: 30%; 
 }
 .Cupcake-de-Red-Velvet{
     text-align: center;
